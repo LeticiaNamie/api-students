@@ -1,2 +1,2 @@
 # api-students
-API students to 'Golang do Zero' course
+API to manage students, made in 'Golang do Zero' course
