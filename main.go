@@ -16,10 +16,10 @@ func main() {
 
 	// Routes
 	e.GET("/students", getStudents)
-	e.POST("/student", createStudent)
-	e.GET("/student/:id", getStudent)
-	e.PUT("/student/:id", updateStudent)
-	e.DELETE("/student/:id", deleteStudent)
+	e.POST("/students", createStudent)
+	e.GET("/students/:id", getStudent)
+	e.PUT("/students/:id", updateStudent)
+	e.DELETE("/students/:id", deleteStudent)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))
