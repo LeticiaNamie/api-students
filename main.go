@@ -30,7 +30,13 @@ func main() {
 
 // Handler
 func getStudents(c echo.Context) error {
-	return c.String(http.StatusOK, "List of all students")
+	students, err := db.GetStudents()
+
+	if err != nil {
+		return c.String(http.StatusNotFound, "Failed to get students")
+	}
+
+	return c.JSON(http.StatusOK, students)
 }
 
 func createStudent(c echo.Context) error {
@@ -55,7 +61,7 @@ func createStudent(c echo.Context) error {
 
 func getStudent(c echo.Context) error {
 	id := c.Param("id")
-	return c.String(http.StatusOK, "Student: "+id)
+	return c.String(http.StatusOK, "Get student: "+id)
 }
 
 func updateStudent(c echo.Context) error {
