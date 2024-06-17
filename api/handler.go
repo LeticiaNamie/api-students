@@ -5,10 +5,11 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/LeticiaNamie/api-students/db"
 	"github.com/labstack/echo"
 	"github.com/rs/zerolog/log"
 	"gorm.io/gorm"
+
+	"github.com/LeticiaNamie/api-students/schemas"
 )
 
 func (api *API) getStudents(c echo.Context) error {
@@ -22,7 +23,7 @@ func (api *API) getStudents(c echo.Context) error {
 }
 
 func (api *API) createStudent(c echo.Context) error {
-	student := db.Student{}
+	student := schemas.Student{}
 
 	if err := c.Bind(&student); err != nil {
 		log.Error().Msgf("Error to bind data")
