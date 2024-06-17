@@ -1,12 +1,12 @@
 package api
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/LeticiaNamie/api-students/db"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+	"github.com/rs/zerolog/log"
 )
 
 type API struct {
@@ -56,18 +56,14 @@ func (api *API) createStudent(c echo.Context) error {
 	student := db.Student{}
 
 	if err := c.Bind(&student); err != nil {
-		fmt.Println("Error to bind data")
+		log.Error().Msgf("Error to bind data")
 
 		return err
 	}
 
 	if err := api.DB.AddStudent(student); err != nil {
-		fmt.Println("Error to create student")
-
 		return c.String(http.StatusInternalServerError, "Error to create student")
 	}
-
-	fmt.Println("Create student!")
 
 	return c.JSON(http.StatusOK, student)
 }

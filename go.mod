@@ -3,6 +3,7 @@ module github.com/LeticiaNamie/api-students
 go 1.22.3
 
 require (
+	github.com/rs/zerolog v1.33.0
 	gorm.io/driver/sqlite v1.5.6
 	gorm.io/gorm v1.25.10
 )
