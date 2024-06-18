@@ -5,11 +5,10 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/LeticiaNamie/api-students/schemas"
 	"github.com/labstack/echo"
 	"github.com/rs/zerolog/log"
 	"gorm.io/gorm"
-
-	"github.com/LeticiaNamie/api-students/schemas"
 )
 
 func (api *API) getStudents(c echo.Context) error {
@@ -23,12 +22,25 @@ func (api *API) getStudents(c echo.Context) error {
 }
 
 func (api *API) createStudent(c echo.Context) error {
-	student := schemas.Student{}
+	studentReq := StudentRequest{}
 
-	if err := c.Bind(&student); err != nil {
+	if err := c.Bind(&studentReq); err != nil {
 		log.Error().Msgf("Error to bind data")
 
 		return err
+	}
+
+	if err := studentReq.Validate(); err != nil {
+		log.Error().Err(err).Msgf("[api] error validating struct")
+		return c.String(http.StatusBadRequest, "Error validating student")
+	}
+
+	student := schemas.Student{
+		Name:   studentReq.Name,
+		CPF:    studentReq.CPF,
+		Email:  studentReq.Email,
+		Age:    studentReq.Age,
+		Active: *studentReq.Active,
 	}
 
 	if err := api.DB.AddStudent(student); err != nil {
