@@ -57,3 +57,10 @@ func (s *StudentHandler) GetStudent(id int) (schemas.Student, error) {
 func (s *StudentHandler) DeleteStudent(student schemas.Student) error {
 	return s.DB.Delete(&student).Error
 }
+
+func (s *StudentHandler) GetFilteredStudent(active bool) ([]schemas.Student, error) {
+	filteredStudents := []schemas.Student{}
+	err := s.DB.Where("active = ?", active).Find(&filteredStudents)
+
+	return filteredStudents, err.Error
+}

@@ -18,6 +18,21 @@ func (api *API) getStudents(c echo.Context) error {
 		return c.String(http.StatusNotFound, "Failed to get students")
 	}
 
+	active := c.QueryParam("active")
+
+	if active != "" {
+		act, err := strconv.ParseBool(active)
+
+		if err != nil {
+			log.Error().Err(err).Msgf("[api] error to parse boolean")
+			return c.String(http.StatusInternalServerError, "Error to get students")
+		}
+
+		if students, err = api.DB.GetFilteredStudent(act); err != nil {
+			return c.String(http.StatusInternalServerError, "Error to get filtered students")
+		}
+	}
+
 	listOfStudents := map[string][]schemas.StudentResponse{"students": schemas.NewResponse(students)}
 
 	return c.JSON(http.StatusOK, listOfStudents)
